@@ -11,7 +11,10 @@ var init = function () {
 		resave: false,
 		saveUninitialized: false,
 		unset: 'destroy',
-		store: db.mongoose.connection
+		store: new mongoStore({ 
+			mongooseConnection: 
+			db.mongoose.connection 
+		})
 	});
 }
 

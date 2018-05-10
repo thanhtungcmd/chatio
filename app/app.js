@@ -9,30 +9,34 @@ var logger = require('morgan');
 
 // Component
 var flash = require('connect-flash');
+var bodyParser = require("body-parser");
 var session = require('./session');
 var passport = require('./auth');
  
 // Routes
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var indexRouter = require('./routes');
 
 var app = express();
-
-// Socket
-// var socketIO = require('./socket')(app);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Use Component
+app.use(session);
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
+
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -49,7 +53,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
-// socketIO.listen(process.env.PORT_SOCKET);
 
 module.exports = app;

@@ -3,5 +3,8 @@
 var User = require('../database').models.user;
 
 exports.index = function(req, res) {
-    res.send('NOT IMPLEMENTED: Author list');
+	if (req.isAuthenticated()) {
+		res.redirect('/rooms');
+	}
+    res.render('index');
 };

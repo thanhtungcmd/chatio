@@ -9,6 +9,10 @@ var userSchema = new mongoose.Schema({
 	full_name: { type: String, default: null }
 });
 
+userSchema.methods.validPassword = function( pwd ) {
+    return ( this.password === pwd );
+};
+
 var User = mongoose.model('user', userSchema);
 
 module.exports = User;

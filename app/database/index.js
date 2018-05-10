@@ -27,6 +27,7 @@ mongoose.connection.on('error', function (err) {
 module.exports = {
 	mongoose,
 	models: {
-		user: require('./models/user')
+		user: require('./models/user'),
+		room: require('./models/room')
 	}
 }

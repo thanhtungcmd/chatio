@@ -5,8 +5,16 @@ var redis = require('redis');
 var adapter = require('socket.io-redis');
 
 // socket Event
-var socketEvent = function () {
+var socketEvent = function (socketIO) {
+	socketIO.of('/chatroom').on('connection', function (socket) {
+		socket.on('join', function () {
+			socket.join('room');
+		});
 
+		socket.on('newMessage', function (message) {
+			socket.broadcast.to('room').emit('addMessage', message);
+		});
+	});
 }
 
 var init = function (app) {
@@ -32,7 +40,7 @@ var init = function (app) {
 	});
 
 	// Define event
-	// socketEvent(socketIO);
+	socketEvent(socketIO);
 
 	return server;
 }
