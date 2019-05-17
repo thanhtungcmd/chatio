@@ -13,15 +13,16 @@ router.get('/', homeController.index);
 // register page
 router.get('/register', homeController.register);
 
-router.post('/', passport.authenticate('local', {
-	failureRedirect: '/'
-}), function (req, res) {
-	res.redirect('/rooms');
-});
+router.post('/register', homeController.postRegister);
 
-router.get('/chat', function (req, res) {
-	res.render('chat');
-});
+router.post('/', homeController.postLogin);
+
+// router.post('/', passport.authenticate('local', {
+// 	failureRedirect: '/'
+// }), function (req, res) {
+// 	res.redirect('/rooms');
+// });
+
 
 // router.get('/register', function re)
 
@@ -40,6 +41,10 @@ router.get('/try-register', function (req, res) {
 
 router.get('/rooms', function (req, res) {
 	res.render('rooms');
+});
+
+router.get('/chat', function (req, res) {
+	res.render('chat');
 });
 
 module.exports = router;
