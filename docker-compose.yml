@@ -12,7 +12,7 @@ services:
   mongodb:
     build: ./docker/mongodb
     volumes:
-      - E:\Node\chatio\docker\mongodb\db:/data/db
+      - ./data:/data
     ports:
       - "27017:27017"
   redis:
