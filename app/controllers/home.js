@@ -50,7 +50,17 @@ exports.postRegister = function(req, res) {
 };
 
 exports.postLogin = passport.authenticate('local', {
-	failureRedirect: '/'
+	failureRedirect: '/',
+	successRedirect: '/rooms',
 }), function (req, res) {
-	res.redirect('/rooms');
+	res.redirect('/');
 };
+
+exports.logout = function(req, res) {
+	req.logout();
+	res.redirect('/');
+}
+
+exports.friends = function (req, res) {
+	res.render('rooms');
+}
