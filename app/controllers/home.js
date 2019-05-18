@@ -1,18 +1,20 @@
 'use strict';
 
-var User = require('../database').models.user;
 const util = require('util');
 var passport 	= require('passport');
 
+// Modal
+var User = require('../database').models.user;
+
 exports.index = function(req, res) {
 	if (req.isAuthenticated()) {
-		res.redirect('/rooms');
+		res.redirect('/friends');
 	}
     res.render('index');
 };
 
 exports.register = function (req, res) {
-	console.log(util.inspect(req));
+	// console.log(util.inspect(req));
 	res.render('register');
 };
 
@@ -30,7 +32,7 @@ exports.postRegister = function(req, res) {
 	}
 
 	if (error.length > 0) {
-		console.log(error);
+		// console.log(error);
 		return res.render('register', {
 			error: error
 		});
@@ -44,14 +46,14 @@ exports.postRegister = function(req, res) {
 	});
 
 	user.save(function (err) {
-		console.log(util.inspect(err));
+		// console.log(util.inspect(err));
 	});
 	return res.redirect('/');
 };
 
 exports.postLogin = passport.authenticate('local', {
 	failureRedirect: '/',
-	successRedirect: '/rooms',
+	successRedirect: '/friends',
 }), function (req, res) {
 	res.redirect('/');
 };
@@ -61,6 +63,22 @@ exports.logout = function(req, res) {
 	res.redirect('/');
 }
 
-exports.friends = function (req, res) {
-	res.render('rooms');
+exports.friends = async function (req, res) {
+	// Get Friend
+	var friends = await User.find({
+		username: {
+			$ne: req.user.username
+		}
+	});
+
+	// console.log(util.inspect(req.user));
+	console.log(util.inspect(friends));
+
+	res.render('friend', {
+		friends: friends
+	});
+}
+
+exports.chat = function (req, res) {
+	res.render('chat');
 }

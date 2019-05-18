@@ -51,9 +51,11 @@
                   </div>
                   <table class="table card-table table-hover">
                     <tbody>
-                      <!-- <tr>
-                        <td><a href="ngon">Google Chrome</a></td>
-                      </tr> -->
+                      <% friends.forEach(function(friend){ %>
+                      <tr>
+                        <td><a href="ngon"><%= friend.username %></a></td>
+                      </tr>
+                      <% }); %>
                     </tbody>
                   </table>
                 </div>
