@@ -70,7 +70,7 @@
     <script src='/javascripts/main.js'></script>
     <script>
       $(function () {
-        app.chat('thanh tung')
+        app.chat('<%= room.room_id %>', '<%= user.username %>');
       });
     </script>
   </body>

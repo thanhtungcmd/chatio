@@ -1,10 +1,12 @@
 'use strict';
 
 const util = require('util');
+var crypto = require('crypto');
 var passport 	= require('passport');
 
 // Modal
 var User = require('../database').models.user;
+var Room = require('../database').models.room;
 
 exports.index = function(req, res) {
 	if (req.isAuthenticated()) {
@@ -79,6 +81,37 @@ exports.friends = async function (req, res) {
 	});
 }
 
-exports.chat = function (req, res) {
-	res.render('chat');
+exports.chat = async function (req, res) {
+	if (req.query.friend !== '') {
+		
+		// Check Room
+		var room = await Room.findOne({
+			connections: {
+				$all: [req.query.friend, req.user.username]
+			}
+		})
+		
+
+		if (room.length == 0) {
+			var name = req.query.friend + '_' + req.user.username;
+			var hash = crypto.createHash('md5').update(name).digest('hex');
+			var room = new Room({
+				room_id: hash,
+				connections: [
+					req.query.friend,
+					req.user.username
+				]
+			});
+			room.save();
+		}
+		
+		console.log(util.inspect(room));
+
+		res.render('chat', {
+			room: room,
+			user: req.user
+		});
+	} else {
+		res.send('Bạn chưa chọn bạn');
+	}
 }

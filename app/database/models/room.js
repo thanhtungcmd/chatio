@@ -3,13 +3,8 @@
 var mongoose = require('mongoose');
 
 var roomSchema = new mongoose.Schema({
-	title: { type: String, required: true },
-	connections: {
-		type: [{
-			user_id: String,
-			socket_id: String
-		}]
-	}
+	room_id: { type: String, required: true },
+	connections: { type: Array, required: true }
 });
 
 var Room = mongoose.model('rooms', roomSchema);

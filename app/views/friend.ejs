@@ -53,7 +53,7 @@
                     <tbody>
                       <% friends.forEach(function(friend){ %>
                       <tr>
-                        <td><a href="ngon"><%= friend.username %></a></td>
+                        <td><a href="/chat?friend=<%= friend.username %>"><%= friend.username %></a></td>
                       </tr>
                       <% }); %>
                     </tbody>

@@ -1,11 +1,11 @@
 'use strict';
 
 var app = {
-	chat: function (user) {
+	chat: function (roomId, user) {
 		var socket = io('/chatroom', { transports: ['websocket'] });
 
 		socket.on('connect', function (test) {
-			socket.emit('join');
+			socket.emit('join', roomId);
 
 			$('#chat-message').on('keyup', function (e) {
 			    if (e.keyCode == 13) {
@@ -16,7 +16,7 @@ var app = {
 			        		username: user,
 			        		date: Date.now()
 			        	}
-			        	socket.emit('newMessage', message);
+			        	socket.emit('newMessage', roomId, message);
 			        	$('#chat-message').val('');
 			        	app.helpers.addMessageMe(message);
 			        }

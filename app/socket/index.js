@@ -7,12 +7,12 @@ var adapter = require('socket.io-redis');
 // socket Event
 var socketEvent = function (socketIO) {
 	socketIO.of('/chatroom').on('connection', function (socket) {
-		socket.on('join', function () {
-			socket.join('room');
+		socket.on('join', function (roomId) {
+			socket.join(roomId);
 		});
 
-		socket.on('newMessage', function (message) {
-			socket.broadcast.to('room').emit('addMessage', message);
+		socket.on('newMessage', function (roomId, message) {
+			socket.broadcast.to(roomId).emit('addMessage', message);
 		});
 	});
 }
