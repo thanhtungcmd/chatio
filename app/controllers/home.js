@@ -60,7 +60,13 @@ exports.postLogin = passport.authenticate('local', {
 	res.redirect('/');
 };
 
-exports.logout = function(req, res) {
+exports.logout = async function(req, res) {
+	var user = await User.updateOne({
+		username: req.user.username
+	}, {
+		status_chat: false
+	});
+
 	req.logout();
 	res.redirect('/');
 }
@@ -77,7 +83,8 @@ exports.friends = async function (req, res) {
 	console.log(util.inspect(friends));
 
 	res.render('friend', {
-		friends: friends
+		friends: friends,
+		user: req.user
 	});
 }
 
@@ -92,7 +99,7 @@ exports.chat = async function (req, res) {
 		})
 		
 
-		if (room.length == 0) {
+		if (!room) {
 			var name = req.query.friend + '_' + req.user.username;
 			var hash = crypto.createHash('md5').update(name).digest('hex');
 			var room = new Room({

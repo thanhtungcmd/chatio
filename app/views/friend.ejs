@@ -18,15 +18,8 @@
     <title>Homepage - tabler.github.io - a responsive, flat and full featured admin template</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,400,400i,500,500i,600,600i,700,700i&amp;subset=latin-ext">
-    <script src="./assets/js/require.min.js"></script>
-    <script>
-      requirejs.config({
-          baseUrl: '.'
-      });
-    </script>
     <!-- Dashboard Core -->
     <link href="./assets/css/dashboard.css" rel="stylesheet" />
-    <script src="./assets/js/dashboard.js"></script>
   </head>
   <body>
     <div class="page">
@@ -51,9 +44,15 @@
                   </div>
                   <table class="table card-table table-hover">
                     <tbody>
-                      <% friends.forEach(function(friend){ %>
+                      <% friends.forEach(function(friend) { %>
                       <tr>
-                        <td><a href="/chat?friend=<%= friend.username %>"><%= friend.username %></a></td>
+                        <td>
+                          <a href="/chat?friend=<%= friend.username %>"><%= friend.username %></a>
+                          <span 
+                            id="<%= friend.username %>" 
+                            <% if (!friend.status_chat) { %> style="display: none" <% } %>
+                            >(online)</span>
+                        </td>
                       </tr>
                       <% }); %>
                     </tbody>
@@ -67,6 +66,13 @@
         </div>
       </div>
     </div>
-    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>\
+    <script src="/socket.io/socket.io.js"></script>
+    <script src='/javascripts/main.js'></script>
+    <script>
+      $(function () {
+        app.room('<%= user.username %>');
+      });
+    </script>
   </body>
 </html>

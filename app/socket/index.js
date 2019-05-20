@@ -4,8 +4,34 @@ var config = require('../config');
 var redis = require('redis');
 var adapter = require('socket.io-redis');
 
+// Model
+var User = require('../database').models.user;
+
 // socket Event
 var socketEvent = function (socketIO) {
+
+	// socket for friend
+	socketIO.of('/room').on('connection', function (socket) {
+		socket.on('joinroom', async function (username) {
+			var user = await User.updateOne({
+				username: username
+			}, {
+				status_chat: true
+			});
+			socket.broadcast.emit('updateRoom', username);
+		});
+
+		socket.on('outroom', async function (username) {
+			var user = await User.updateOne({
+				username: username
+			}, {
+				status_chat: false
+			});
+			socket.broadcast.emit('outRoom', username);
+		});
+	});
+
+	// socket for chatroom
 	socketIO.of('/chatroom').on('connection', function (socket) {
 		socket.on('join', function (roomId) {
 			socket.join(roomId);

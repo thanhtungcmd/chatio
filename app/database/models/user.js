@@ -6,7 +6,8 @@ var userSchema = new mongoose.Schema({
 	username: { type: String, required: true },
 	password: { type: String, required: true },
 	social_id: { type: String, default: null },
-	full_name: { type: String, default: null }
+	full_name: { type: String, default: null },
+	status_chat: { type: Boolean, default: false}
 });
 
 userSchema.methods.validPassword = function( pwd ) {
