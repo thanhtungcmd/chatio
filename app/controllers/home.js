@@ -7,6 +7,7 @@ var passport 	= require('passport');
 // Modal
 var User = require('../database').models.user;
 var Room = require('../database').models.room;
+var History = require('../database').models.history;
 
 exports.index = function(req, res) {
 	if (req.isAuthenticated()) {
@@ -98,7 +99,7 @@ exports.chat = async function (req, res) {
 			}
 		})
 		
-
+		// Room
 		if (!room) {
 			var name = req.query.friend + '_' + req.user.username;
 			var hash = crypto.createHash('md5').update(name).digest('hex');
@@ -114,9 +115,15 @@ exports.chat = async function (req, res) {
 		
 		console.log(util.inspect(room));
 
+		// History
+		var history = await History.find({
+			room_id: room.room_id
+		}).limit(10);
+
 		res.render('chat', {
 			room: room,
-			user: req.user
+			user: req.user,
+			history: history
 		});
 	} else {
 		res.send('Bạn chưa chọn bạn');

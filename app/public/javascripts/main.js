@@ -61,6 +61,8 @@ var app = {
 				'<div class="clearfix"></div>';
 			console.log(1);
 			$('#chat-content').append(html);
+			var myDiv = $("#chat-content");
+        	myDiv.animate({ scrollTop: myDiv.prop("scrollHeight") - myDiv.height() }, 0);
 		},
 
 		addMessageOther: function (message) {
@@ -77,6 +79,8 @@ var app = {
 				'<div class="clearfix"></div>';
 			console.log(1);
 			$('#chat-content').append(html);
+			var myDiv = $("#chat-content");
+        	myDiv.animate({ scrollTop: myDiv.prop("scrollHeight") - myDiv.height() }, 0);
 		}
 	}
 };

@@ -6,6 +6,7 @@ var adapter = require('socket.io-redis');
 
 // Model
 var User = require('../database').models.user;
+var History = require('../database').models.history;
 
 // socket Event
 var socketEvent = function (socketIO) {
@@ -38,6 +39,12 @@ var socketEvent = function (socketIO) {
 		});
 
 		socket.on('newMessage', function (roomId, message) {
+			var history = new History({
+				room_id: roomId,
+				time: message.date,
+				username: message.username,
+				content: message.content
+			}).save();
 			socket.broadcast.to(roomId).emit('addMessage', message);
 		});
 	});

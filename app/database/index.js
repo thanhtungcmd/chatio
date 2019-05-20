@@ -28,6 +28,7 @@ module.exports = {
 	mongoose,
 	models: {
 		user: require('./models/user'),
-		room: require('./models/room')
+		room: require('./models/room'),
+		history: require('./models/history')
 	}
 }

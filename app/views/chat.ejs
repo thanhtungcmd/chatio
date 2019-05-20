@@ -37,6 +37,31 @@
                   </div>
                   <!-- Content -->
                   <div id="chat-content" class="card-body o-auto" style="height: 400px;">
+                    <% history.forEach(function(chat) { %>
+                      <% if (chat.username == user.username) { %>
+                        <div class="col-md-9 pull-right">
+                          <div class="alert alert-primary" role="alert">
+                            <%= chat.content %> <br>
+                            <small class="font-weight-light">
+                              <%= chat.username %>
+                              <%= new Date(chat.time).toLocaleString() %>
+                            </small>
+                          </div>
+                        </div>
+                        <div class="clearfix"></div>
+                      <% } else { %>
+                        <div class="col-md-9">
+                          <div class="alert alert-secondary" role="alert">
+                            <%= chat.content %> <br>
+                            <small class="font-weight-light">
+                              <%= chat.username %>
+                              <%= new Date(chat.time).toLocaleString() %>
+                            </small>
+                          </div>
+                        </div>
+                        <div class="clearfix"></div>
+                      <% } %>
+                    <% }); %>
                   </div>
                   <!-- Content -->
                   <div class="clearfix"></div>
@@ -70,6 +95,9 @@
     <script src='/javascripts/main.js'></script>
     <script>
       $(function () {
+        var myDiv = $("#chat-content");
+        myDiv.animate({ scrollTop: myDiv.prop("scrollHeight") - myDiv.height() }, 0);
+
         app.chat('<%= room.room_id %>', '<%= user.username %>');
       });
     </script>
