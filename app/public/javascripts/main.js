@@ -10,6 +10,18 @@ var app = {
 			socket.on('updateRoom', function(username) {
 				app.helpers.updateRoomChat(username);
 			});
+
+			socket.on('outRoom', function(username) {
+				app.helpers.outRoomChat(username);
+			});
+		});
+	},
+
+	logout: function(user) {
+		var socket = io('/room', { transports: ['websocket'] });
+
+		socket.on('connect', function () {
+			socket.emit('outroom', user);
 		});
 	},
 
@@ -45,6 +57,10 @@ var app = {
 	helpers: {
 		updateRoomChat: function (username) {
 			$('#'+ username).show();
+		},
+
+		outRoomChat: function (username) {
+			$('#'+ username).hide();
 		},
 
 		addMessageMe: function (message) {

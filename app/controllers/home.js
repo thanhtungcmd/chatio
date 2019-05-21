@@ -62,6 +62,7 @@ exports.postLogin = passport.authenticate('local', {
 };
 
 exports.logout = async function(req, res) {
+	var outUser = req.user.username;
 	var user = await User.updateOne({
 		username: req.user.username
 	}, {
@@ -69,7 +70,10 @@ exports.logout = async function(req, res) {
 	});
 
 	req.logout();
-	res.redirect('/');
+	// res.redirect('/');
+	return res.render('logout', {
+		user: outUser
+	});
 }
 
 exports.friends = async function (req, res) {
