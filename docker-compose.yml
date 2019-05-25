@@ -12,7 +12,7 @@ services:
   mongodb:
     build: ./docker/mongodb
     volumes:
-      - ./data:/data
+      - /Users/macbook/Data/edupia/app/chatio/db:/data/db
     ports:
       - "27017:27017"
   redis:
