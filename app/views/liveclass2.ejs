@@ -62,40 +62,35 @@
             background: #DEE2E7;
             border: none;
         }
+
+        .login-btn {
+            background: #DEE2E7;
+            padding: .75rem .75rem;
+            cursor: pointer;
+            width: 100%;
+        }
+
     </style>
 </head>
 <body>
 <div class="liveclass">
     <div class="liveclass-video" id="chat-content" data-page="1">
         <% history.forEach(function(chat) { %>
-        <div class="chat-item">
-            <div class="chat-item-img">
-                <img src="<%= chat.avatar %>" alt="banner">
+            <div class="chat-item">
+                <div class="chat-item-img">
+                    <img src="<%= chat.avatar %>" alt="banner">
+                </div>
+                <div class="chat-item-name">
+                    <%= chat.username %>
+                </div>
+                <div class="chat-item-text">
+                    <%= chat.content %>
+                </div>
             </div>
-            <div class="chat-item-name">
-                <%= chat.username %>
-            </div>
-            <div class="chat-item-text">
-                <%= chat.content %>
-            </div>
-        </div>
         <% }); %>
+        <btn class="btn login-btn">Đăng nhập để tiếp tục</btn>
     </div>
-    <div class="liveclass-video-box">
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text">
-                    <img src="/liveclass/icon-smeil.svg" alt="banner">
-                </span>
-            </div>
-            <input id="chat-message" type="text" class="form-control" placeholder="Hãy nói điều gì đó">
-            <div class="input-group-append" id="chat-btn">
-                <span class="input-group-text">
-                     <img src="/liveclass/icon-send.svg" alt="banner">
-                </span>
-            </div>
-        </div>
-    </div>
+
 </div>
 <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
 <script src="/socket.io/socket.io.js"></script>
@@ -104,8 +99,11 @@
     $(function () {
         var myDiv = $("#chat-content");
         myDiv.animate({ scrollTop: myDiv.prop("scrollHeight") - myDiv.height() }, 0);
-        // Chat js
-        app.liveclass('<%= liveclass %>', '<%= username %>', '<%= avatar %>');
+        app.liveclass('<%= liveclass %>');
+
+        $('.login-btn').on('click', function () {
+            window.parent.postMessage('login', '*');
+        });
 
         myDiv.scroll(function() {
             var value = $(this).scrollTop();

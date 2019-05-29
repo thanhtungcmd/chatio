@@ -19,4 +19,6 @@ router.get('/chat', homeController.chat);
 
 router.get('/liveclass', homeController.liveclass);
 
+router.get('/liveclass-page', homeController.liveclassPage);
+
 module.exports = router;

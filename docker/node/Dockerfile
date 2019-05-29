@@ -6,8 +6,8 @@ RUN npm install nodemon -g
 
 WORKDIR /home/node/app
 
-#CMD ["node", "./bin/www"]
-CMD ["nodemon", "-L", "./bin/www"]
+CMD ["node", "./bin/www"]
+#CMD ["nodemon", "-L", "./bin/www"]
 #CMD ["pm2", "start", "./bin/www", "--watch"]
 
 EXPOSE 3000

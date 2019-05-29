@@ -105,6 +105,25 @@ var app = {
 	}, 
 
 	helpers: {
+		liveClassLoadPage: function (message) {
+			message.date = (new Date(message.date)).toLocaleString();
+			message.user = message.username;
+			message.content = message.content;
+			message.avatar = message.avatar;
+			var html = '<div class="chat-item">' +
+				'<div class="chat-item-img">' +
+				'<img src="' + message.avatar +'" alt="banner">' +
+				'</div>' +
+				'<div class="chat-item-name">' +
+				message.user +
+				'</div>' +
+				'<div class="chat-item-text">' +
+				message.content +
+				'</div>' +
+				'</div>';
+			$('#chat-content').prepend(html);
+		},
+
 		liveClassAddMessage: function (message) {
 			message.date = (new Date(message.date)).toLocaleString();
 			message.user = message.username;

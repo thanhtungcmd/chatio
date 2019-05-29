@@ -12,19 +12,21 @@ var History = require('../database').models.history;
 var Liveclass = require('../database').models.liveclass;
 
 exports.liveclass = async function (req, res) {
-	if (typeof req.query.username !== "undefined"
-		&& typeof req.query.liveclass !== "undefined") {
+	if (typeof req.query.liveclass == "undefined") {
+		return res.send('Fail');
+	}
 
-		var history = await Liveclass.find({
-			liveclass_id: req.query.liveclass
-		}).limit(20);
+	var history = await Liveclass.find({
+		liveclass_id: req.query.liveclass
+	}).sort({_id: -1}).limit(20);
+
+	if (typeof req.query.username !== "undefined") {
 
 		var dataUser = await axios.post('https://attt.edupia.vn/service/userinfo', {}, {
 			headers: {
 				'username': req.query.username
 			}
 		});
-		console.log(dataUser);
 
 		if (typeof dataUser.data !== "undefined") {
 
@@ -40,10 +42,25 @@ exports.liveclass = async function (req, res) {
 				avatar: avatar
 			});
 		} else {
-			return res.send('False');
+			return res.render('liveclass2', {
+				liveclass: req.query.liveclass,
+				history: history,
+			});
 		}
 	}
-	return res.send('False');
+
+	return res.render('liveclass2', {
+		liveclass: req.query.liveclass,
+		history: history,
+	});
+}
+
+exports.liveclassPage = async function(req, res) {
+	var history = await Liveclass.find({
+		liveclass_id: req.query.liveclass
+	}).sort({_id: -1}).skip(req.query.page * 20).limit(20);
+
+	return res.json(history);
 }
 
 exports.index = function(req, res) {
