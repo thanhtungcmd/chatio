@@ -19,20 +19,25 @@ exports.liveclass = async function (req, res) {
 			liveclass_id: req.query.liveclass
 		}).limit(20);
 
-		console.log(util.inspect(history));
-
 		var dataUser = await axios.post('https://attt.edupia.vn/service/userinfo', {}, {
 			headers: {
 				'username': req.query.username
 			}
 		});
+		console.log(dataUser);
 
-		if (typeof dataUser.data.info.avatar !== "undefined") {
+		if (typeof dataUser.data !== "undefined") {
+
+			var avatar = dataUser.data.info.avatar;
+			if (avatar.substr(0, 1) == '/') {
+				avatar = avatar.replace('/uploads', 'https://static.edupia.vn/');
+			}
+
 			return res.render('liveclass', {
 				username: req.query.username,
 				liveclass: req.query.liveclass,
 				history: history,
-				data: dataUser.data
+				avatar: avatar
 			});
 		} else {
 			return res.send('False');
