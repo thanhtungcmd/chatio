@@ -2,7 +2,7 @@
 
 const util = require('util');
 var crypto = require('crypto');
-var passport 	= require('passport');
+var passport = require('passport');
 
 // Modal
 var User = require('../database').models.user;

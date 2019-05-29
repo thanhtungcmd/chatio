@@ -3,6 +3,8 @@
 var config = require('../config');
 var redis = require('redis');
 var adapter = require('socket.io-redis');
+var DetectLanguage = require('detectlanguage');
+var util = require('util');
 
 // Model
 var User = require('../database').models.user;
@@ -39,13 +41,38 @@ var socketEvent = function (socketIO) {
 		});
 
 		socket.on('newMessage', function (roomId, message) {
-			var history = new History({
-				room_id: roomId,
-				time: message.date,
-				username: message.username,
-				content: message.content
-			}).save();
-			socket.broadcast.to(roomId).emit('addMessage', message);
+			// check message
+			var detectLanguage = new DetectLanguage({
+				key: 'a5699cbed4d7fd8b533c616665bc6977',
+				ssl: false
+			});
+
+			detectLanguage.detect(message.content, function(error, result) {
+				if (typeof result[0].language !== 'undefined') {
+					if (result[0].language == 'en') {
+						console.log(1);
+						new History({
+							room_id: roomId,
+							time: message.date,
+							username: message.username,
+							content: message.content
+						}).save();
+						socket.broadcast.to(roomId).emit('addMessage', message);
+					} else {
+						console.log(2);
+						socket.emit('errorMessage', 'Bạn nhập không phải tiếng anh');
+					}
+				} else {
+					console.log(3);
+					new History({
+						room_id: roomId,
+						time: message.date,
+						username: message.username,
+						content: message.content
+					}).save();
+					socket.broadcast.to(roomId).emit('addMessage', message);
+				}
+			});
 		});
 	});
 }

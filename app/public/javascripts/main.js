@@ -51,6 +51,10 @@ var app = {
 				console.log(message);
 				app.helpers.addMessageOther(message);
 			});
+
+			socket.on('errorMessage', function (message) {
+				app.helpers.errorMessage(message);
+			})
 		});
 	}, 
 
@@ -61,6 +65,13 @@ var app = {
 
 		outRoomChat: function (username) {
 			$('#'+ username).hide();
+		},
+
+		errorMessage: function (message) {
+			$('.alert-danger').text(message).fadeIn();
+			setTimeout(function () {
+				$('.alert-danger').text(message).fadeOut();
+			}, 1500);
 		},
 
 		addMessageMe: function (message) {
