@@ -1,10 +1,22 @@
 'use strict';
 
 var config = require('../config');
-var redis = require('redis');
+// var redis = require('redis');
 var adapter = require('socket.io-redis');
 var DetectLanguage = require('detectlanguage');
 var util = require('util');
+const Redis = require('ioredis');
+
+const startupNodes = [
+	{
+		port: 6380,
+		host: '127.0.0.1'
+	},
+	{
+		port: 6381,
+		host: '127.0.0.1'
+	}
+];
 
 // Model
 var User = require('../database').models.user;
@@ -102,8 +114,8 @@ var init = function (app) {
 
 	socketIO.set('transports', ['websocket']);
 
-	let host = config.redis.host;
-	let port = config.redis.port;
+	let host = new Redis.Cluster(startupNodes);
+	let port = new Redis.Cluster(startupNodes);
 
 	socketIO.adapter(adapter({
 		host: host,
