@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="Content-Language" content="en" />
+    <title>Live chat</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!--<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,400,400i,500,500i,600,600i,700,700i&amp;subset=latin-ext">-->
+    <style>
+        .liveclass .liveclass-video {
+            background: #F2F5F8;
+            border-radius: 2px;
+            height: 448px;
+            overflow-x: hidden;
+            overflow-y: scroll;
+        }
+        .liveclass .liveclass-video .chat-item {
+            padding: 7px 5px 7px 50px;
+            position: relative;
+        }
+
+        .liveclass .liveclass-video .chat-item:hover {
+            background: #DEE2E7;
+        }
+
+        .liveclass .liveclass-video .chat-item:hover .chat-item-name {
+            color: #0A5C8F;
+        }
+
+        .liveclass .liveclass-video .chat-item .chat-item-img {
+            position: absolute;
+            top: 10px;
+            left: 12px;
+        }
+
+        .liveclass .liveclass-video .chat-item .chat-item-img img {
+            width: 25px;
+            height: 25px;
+            border-radius: 100px;
+        }
+
+        .liveclass .liveclass-video .chat-item .chat-item-name {
+            font-size: 14px;
+            color: #828282;
+            font-weight: 500;
+        }
+
+        .liveclass .liveclass-video .chat-item .chat-item-text {
+            font-size: 14px;
+        }
+
+        .liveclass .liveclass-video-box .form-control {
+            font-size: 14px;
+            background: #DEE2E7;
+            border: none;
+            height: calc(1.5em + 0.75rem + 9px);
+        }
+
+        .liveclass .liveclass-video-box .input-group-text {
+            background: #DEE2E7;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+<div class="liveclass">
+    <div class="liveclass-video" id="chat-content">
+        <% history.forEach(function(chat) { %>
+        <div class="chat-item">
+            <div class="chat-item-img">
+                <img src="<%= chat.avatar %>" alt="banner">
+            </div>
+            <div class="chat-item-name">
+                <%= chat.username %>
+            </div>
+            <div class="chat-item-text">
+                <%= chat.content %>
+            </div>
+        </div>
+        <% }); %>
+    </div>
+    <div class="liveclass-video-box">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">
+                    <img src="/liveclass/icon-smeil.svg" alt="banner">
+                </span>
+            </div>
+            <input id="chat-message" type="text" class="form-control" placeholder="Hãy nói điều gì đó">
+            <div class="input-group-append" id="chat-btn">
+                <span class="input-group-text">
+                     <img src="/liveclass/icon-send.svg" alt="banner">
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src='/javascripts/main.js'></script>
+<script>
+    $(function () {
+        var myDiv = $("#chat-content");
+        myDiv.animate({ scrollTop: myDiv.prop("scrollHeight") - myDiv.height() }, 0);
+        // Chat js
+        app.liveclass('<%= liveclass %>', '<%= username %>', '<%= data.info.avatar %>');
+    });
+</script>
+</body>
+</html>

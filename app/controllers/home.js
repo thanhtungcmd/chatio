@@ -1,13 +1,45 @@
 'use strict';
 
-const util = require('util');
+var util = require('util');
 var crypto = require('crypto');
 var passport = require('passport');
+var axios = require('axios');
 
 // Modal
 var User = require('../database').models.user;
 var Room = require('../database').models.room;
 var History = require('../database').models.history;
+var Liveclass = require('../database').models.liveclass;
+
+exports.liveclass = async function (req, res) {
+	if (typeof req.query.username !== "undefined"
+		&& typeof req.query.liveclass !== "undefined") {
+
+		var history = await Liveclass.find({
+			liveclass_id: req.query.liveclass
+		}).limit(20);
+
+		console.log(util.inspect(history));
+
+		var dataUser = await axios.post('https://attt.edupia.vn/service/userinfo', {}, {
+			headers: {
+				'username': req.query.username
+			}
+		});
+
+		if (typeof dataUser.data.info.avatar !== "undefined") {
+			return res.render('liveclass', {
+				username: req.query.username,
+				liveclass: req.query.liveclass,
+				history: history,
+				data: dataUser.data
+			});
+		} else {
+			return res.send('False');
+		}
+	}
+	return res.send('False');
+}
 
 exports.index = function(req, res) {
 	if (req.isAuthenticated()) {

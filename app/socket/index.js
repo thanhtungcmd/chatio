@@ -9,6 +9,7 @@ var util = require('util');
 // Model
 var User = require('../database').models.user;
 var History = require('../database').models.history;
+var Liveclass = require('../database').models.liveclass;
 
 // socket Event
 var socketEvent = function (socketIO) {
@@ -31,6 +32,24 @@ var socketEvent = function (socketIO) {
 				status_chat: false
 			});
 			socket.broadcast.emit('outRoom', username);
+		});
+	});
+
+	// socket for liveclass
+	socketIO.of('/liveclass').on('connection', function (socket) {
+		socket.on('join', function (classId) {
+			socket.join(classId);
+		});
+
+		socket.on('newMessage', function (classId, message) {
+			new Liveclass({
+				liveclass_id: classId,
+				time: message.date,
+				username: message.username,
+				content: message.content,
+				avatar: message.avatar
+			}).save();
+			socket.broadcast.to(classId).emit('addMessage', message);
 		});
 	});
 

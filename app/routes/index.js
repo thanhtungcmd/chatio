@@ -17,4 +17,6 @@ router.get('/friends', homeController.friends);
 
 router.get('/chat', homeController.chat);
 
+router.get('/liveclass', homeController.liveclass);
+
 module.exports = router;

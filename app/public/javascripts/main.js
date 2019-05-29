@@ -25,6 +25,52 @@ var app = {
 		});
 	},
 
+	liveclass: function (classId, user, avatar) {
+		var socket = io('/liveclass', { transports: ['websocket'] });
+
+		socket.on('connect', function () {
+			socket.emit('join', classId);
+
+			$('#chat-message').on('keyup', function (e) {
+				if (e.keyCode == 13) {
+					var content = $('#chat-message').val();
+					console.log(content);
+					if (content !== '') {
+						var message = {
+							content: content,
+							username: user,
+							date: Date.now(),
+							avatar: avatar
+						}
+						socket.emit('newMessage', classId, message);
+						$('#chat-message').val('');
+						app.helpers.liveClassAddMessage(message);
+					}
+				}
+			});
+
+			$('#chat-btn').on('click', function () {
+				var content = $('#chat-message').val();
+				console.log(content);
+				if (content !== '') {
+					var message = {
+						content: content,
+						username: user,
+						date: Date.now(),
+						avatar: avatar
+					}
+					socket.emit('newMessage', classId, message);
+					$('#chat-message').val('');
+					app.helpers.liveClassAddMessage(message);
+				}
+			});
+
+			socket.on('addMessage', function(message) {
+				app.helpers.liveClassAddMessage(message);
+			});
+		});
+	},
+
 	chat: function (roomId, user) {
 		var socket = io('/chatroom', { transports: ['websocket'] });
 
@@ -42,7 +88,7 @@ var app = {
 			        	}
 			        	socket.emit('newMessage', roomId, message);
 			        	$('#chat-message').val('');
-			        	app.helpers.addMessageMe(message);
+			        	app.helpers.addMessageOther(message);
 			        }
 			    }
 			});
@@ -59,6 +105,27 @@ var app = {
 	}, 
 
 	helpers: {
+		liveClassAddMessage: function (message) {
+			message.date = (new Date(message.date)).toLocaleString();
+			message.user = message.username;
+			message.content = message.content;
+			message.avatar = message.avatar;
+			var html = '<div class="chat-item">' +
+				'<div class="chat-item-img">' +
+				'<img src="' + message.avatar +'" alt="banner">' +
+				'</div>' +
+				'<div class="chat-item-name">' +
+				message.user +
+				'</div>' +
+				'<div class="chat-item-text">' +
+				message.content +
+				'</div>' +
+				'</div>';
+			$('#chat-content').append(html);
+			var myDiv = $("#chat-content");
+			myDiv.animate({ scrollTop: myDiv.prop("scrollHeight") - myDiv.height() }, 0);
+		},
+
 		updateRoomChat: function (username) {
 			$('#'+ username).show();
 		},

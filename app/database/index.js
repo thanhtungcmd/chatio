@@ -29,6 +29,7 @@ module.exports = {
 	models: {
 		user: require('./models/user'),
 		room: require('./models/room'),
-		history: require('./models/history')
+		history: require('./models/history'),
+		liveclass: require('./models/liveclass')
 	}
 }
