@@ -108,7 +108,7 @@ var app = {
 	helpers: {
 		liveClassLoadPage: function (message) {
 			message.date = (new Date(message.date)).toLocaleString();
-			message.user = message.username;
+			message.user = (message.firstname) ? message.firstname : message.username;
 			message.content = message.content;
 			message.avatar = message.avatar;
 			var html = '<div class="chat-item">' +
