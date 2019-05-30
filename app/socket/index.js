@@ -9,12 +9,28 @@ const Redis = require('ioredis');
 
 const startupNodes = [
 	{
-		port: 6380,
-		host: '127.0.0.1'
+		port: 30001,
+		host: '172.25.80.77'
 	},
 	{
-		port: 6381,
-		host: '127.0.0.1'
+		port: 30002,
+		host: '172.25.80.77'
+	},
+	{
+		port: 30001,
+		host: '172.25.80.78'
+	},
+	{
+		port: 30002,
+		host: '172.25.80.78'
+	},
+	{
+		port: 30001,
+		host: '172.25.80.79'
+	},
+	{
+		port: 30002,
+		host: '172.25.80.79'
 	}
 ];
 
@@ -114,12 +130,12 @@ var init = function (app) {
 
 	socketIO.set('transports', ['websocket']);
 
-	let host = new Redis.Cluster(startupNodes);
-	let port = new Redis.Cluster(startupNodes);
+	// let host = new Redis.Cluster(startupNodes);
+	// let port = new Redis.Cluster(startupNodes);
 
 	socketIO.adapter(adapter({
-		host: host,
-		port: port
+		pubClient: new Redis.Cluster(startupNodes),
+		subClient: new Redis.Cluster(startupNodes)
 	}));
 
 	socketIO.use(function (socket, next) {
