@@ -172,7 +172,11 @@
         
         $('#chat-emoji').on('click', function () {
             $('.emoji-group').toggle();
-        })
+        });
+
+        $("#chat-message, #chat-btn").on('click', function () {
+            $('.emoji-group').hide();
+        });
 
         myDiv.scroll(function() {
             var value = $(this).scrollTop();
