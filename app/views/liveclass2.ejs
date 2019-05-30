@@ -81,7 +81,7 @@
                     <img src="<%= chat.avatar %>" alt="banner">
                 </div>
                 <div class="chat-item-name">
-                    <%= chat.username %>
+                    <%= (chat.firstname) ? chat.firstname : chat.username %>
                 </div>
                 <div class="chat-item-text">
                     <%= chat.content %>

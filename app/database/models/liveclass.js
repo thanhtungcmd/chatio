@@ -7,7 +7,8 @@ var liveclassSchema = new mongoose.Schema({
     username: { type: String, required: true },
     content: { type: String, required: true },
     time: { type: Number, required: true },
-    avatar: { type: String, required: true }
+    avatar: { type: String, required: true },
+    firstname: { type: String }
 });
 
 var Liveclass = mongoose.model('liveclass', liveclassSchema);

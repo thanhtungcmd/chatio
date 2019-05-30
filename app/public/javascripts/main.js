@@ -25,7 +25,7 @@ var app = {
 		});
 	},
 
-	liveclass: function (classId, user, avatar) {
+	liveclass: function (classId, user, avatar, firstname) {
 		var socket = io('/liveclass', { transports: ['websocket'] });
 
 		socket.on('connect', function () {
@@ -40,7 +40,8 @@ var app = {
 							content: content,
 							username: user,
 							date: Date.now(),
-							avatar: avatar
+							avatar: avatar,
+							firstname: firstname
 						}
 						socket.emit('newMessage', classId, message);
 						$('#chat-message').val('');
@@ -126,7 +127,7 @@ var app = {
 
 		liveClassAddMessage: function (message) {
 			message.date = (new Date(message.date)).toLocaleString();
-			message.user = message.username;
+			message.user = (message.firstname) ? message.firstname : message.username;
 			message.content = message.content;
 			message.avatar = message.avatar;
 			var html = '<div class="chat-item">' +

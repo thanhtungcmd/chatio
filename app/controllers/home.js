@@ -12,6 +12,7 @@ var History = require('../database').models.history;
 var Liveclass = require('../database').models.liveclass;
 
 exports.liveclass = async function (req, res) {
+	console.log(req.query.firstname);
 	if (typeof req.query.liveclass == "undefined") {
 		return res.send('Fail');
 	}
@@ -20,27 +21,36 @@ exports.liveclass = async function (req, res) {
 		liveclass_id: req.query.liveclass
 	}).sort({created_at: -1}).limit(20);
 
-	if (typeof req.query.username !== "undefined") {
-
-		if (typeof req.query.avatar !== "undefined") {
-
-			return res.render('liveclass', {
-				username: req.query.username,
-				liveclass: req.query.liveclass,
-				history: history,
-				avatar: req.query.avatar
-			});
-		} else {
-			return res.render('liveclass2', {
-				liveclass: req.query.liveclass,
-				history: history,
-			});
-		}
+	if (typeof req.query.username === "undefined") {
+		return res.render('liveclass2', {
+			liveclass: req.query.liveclass,
+			history: history,
+		});
 	}
 
-	return res.render('liveclass2', {
+	if (typeof req.query.avatar === "undefined") {
+		return res.render('liveclass2', {
+			liveclass: req.query.liveclass,
+			history: history,
+		});
+	}
+
+	if (typeof req.query.firstname === "undefined") {
+		return res.render('liveclass', {
+			username: req.query.username,
+			liveclass: req.query.liveclass,
+			history: history,
+			avatar: req.query.avatar,
+			firstname: null
+		});
+	}
+
+	return res.render('liveclass', {
+		username: req.query.username,
 		liveclass: req.query.liveclass,
 		history: history,
+		avatar: req.query.avatar,
+		firstname: req.query.firstname
 	});
 }
 

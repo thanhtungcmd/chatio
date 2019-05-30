@@ -1,11 +1,11 @@
 'use strict';
 
 var config = require('../config');
-// var redis = require('redis');
+var redis = require('redis');
 var adapter = require('socket.io-redis');
 var DetectLanguage = require('detectlanguage');
 var util = require('util');
-const Redis = require('ioredis');
+// const Redis = require('ioredis');
 
 const startupNodes = [
 	{
@@ -75,7 +75,8 @@ var socketEvent = function (socketIO) {
 				time: message.date,
 				username: message.username,
 				content: message.content,
-				avatar: message.avatar
+				avatar: message.avatar,
+				firstname: message.firstname
 			}).save();
 			socket.broadcast.to(classId).emit('addMessage', message);
 		});
@@ -130,12 +131,9 @@ var init = function (app) {
 
 	socketIO.set('transports', ['websocket']);
 
-	// let host = new Redis.Cluster(startupNodes);
-	// let port = new Redis.Cluster(startupNodes);
-
 	socketIO.adapter(adapter({
-		pubClient: new Redis.Cluster(startupNodes),
-		subClient: new Redis.Cluster(startupNodes)
+		host: config.redis.host,
+		port: config.redis.port
 	}));
 
 	socketIO.use(function (socket, next) {

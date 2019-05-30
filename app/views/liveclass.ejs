@@ -58,9 +58,37 @@
             height: calc(1.5em + 0.75rem + 9px);
         }
 
+        .liveclass .liveclass-video-box .form-control:focus {
+            box-shadow: none !important;
+        }
+
         .liveclass .liveclass-video-box .input-group-text {
             background: #DEE2E7;
             border: none;
+        }
+
+        .input-group-prepend {
+            position: relative;
+        }
+
+        .input-group-prepend .emoji-group {
+            position: absolute;
+            border: 1px solid #D8D8D8;
+            border-radius: 4px;
+            width: 302px;
+            height: 150px;
+            bottom: 50px;
+            left: 10px;
+            z-index: 10;
+            background: #fff;
+        }
+
+        .emoji-item {
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            float: left;
+            font-size: 34px;
         }
     </style>
 </head>
@@ -73,7 +101,7 @@
                 <img src="<%= chat.avatar %>" alt="banner">
             </div>
             <div class="chat-item-name">
-                <%= chat.username %>
+                <%= (chat.firstname) ? chat.firstname : chat.username %>
             </div>
             <div class="chat-item-text">
                 <%= chat.content %>
@@ -87,6 +115,18 @@
                 <span class="input-group-text">
                     <img src="/liveclass/icon-smeil.svg" alt="banner">
                 </span>
+                <div class="emoji-group">
+                    <div class="emoji-item">😀</div>
+                    <div class="emoji-item">😃</div>
+                    <div class="emoji-item">😄</div>
+                    <div class="emoji-item">😁</div>
+                    <div class="emoji-item">😆</div>
+                    <div class="emoji-item">😅</div>
+                    <div class="emoji-item">🤣</div>
+                    <div class="emoji-item">😂</div>
+                    <div class="emoji-item">🙂</div>
+                    <div class="emoji-item">🙃</div>
+                </div>
             </div>
             <input id="chat-message" type="text" class="form-control" placeholder="Hãy nói điều gì đó">
             <div class="input-group-append" id="chat-btn">
@@ -105,7 +145,7 @@
         var myDiv = $("#chat-content");
         myDiv.animate({ scrollTop: myDiv.prop("scrollHeight") - myDiv.height() }, 0);
         // Chat js
-        app.liveclass('<%= liveclass %>', '<%= username %>', '<%= avatar %>');
+        app.liveclass('<%= liveclass %>', '<%= username %>', '<%= avatar %>', '<%= firstname %>');
 
         myDiv.scroll(function() {
             var value = $(this).scrollTop();
