@@ -22,24 +22,13 @@ exports.liveclass = async function (req, res) {
 
 	if (typeof req.query.username !== "undefined") {
 
-		var dataUser = await axios.post('https://attt.edupia.vn/service/userinfo', {}, {
-			headers: {
-				'username': req.query.username
-			}
-		});
-
-		if (typeof dataUser.data !== "undefined") {
-
-			var avatar = dataUser.data.info.avatar;
-			if (avatar.substr(0, 1) == '/') {
-				avatar = avatar.replace('/uploads', 'https://static.edupia.vn/');
-			}
+		if (typeof req.query.avatar !== "undefined") {
 
 			return res.render('liveclass', {
 				username: req.query.username,
 				liveclass: req.query.liveclass,
 				history: history,
-				avatar: avatar
+				avatar: req.query.avatar
 			});
 		} else {
 			return res.render('liveclass2', {
