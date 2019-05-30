@@ -97,11 +97,11 @@
         </div>
     </div>
 </div>
-<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
 <script src="/socket.io/socket.io.js"></script>
 <script src='/javascripts/main.js'></script>
 <script>
-    $(function () {
+    $(document).ready(function () {
         var myDiv = $("#chat-content");
         myDiv.animate({ scrollTop: myDiv.prop("scrollHeight") - myDiv.height() }, 0);
         // Chat js
