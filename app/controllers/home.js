@@ -18,7 +18,7 @@ exports.liveclass = async function (req, res) {
 
 	var history = await Liveclass.find({
 		liveclass_id: req.query.liveclass
-	}).sort({_id: -1}).limit(20);
+	}).sort({created_at: -1}).limit(20);
 
 	if (typeof req.query.username !== "undefined") {
 
@@ -47,7 +47,7 @@ exports.liveclass = async function (req, res) {
 exports.liveclassPage = async function(req, res) {
 	var history = await Liveclass.find({
 		liveclass_id: req.query.liveclass
-	}).sort({_id: -1}).skip(req.query.page * 20).limit(20);
+	}).sort({created_at: -1}).skip(req.query.page * 20).limit(20);
 
 	return res.json(history);
 }
