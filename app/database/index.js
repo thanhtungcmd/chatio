@@ -12,10 +12,11 @@ if (config.db.password !== '') {
 	connect += connect + encodeURIComponent(config.db.password) + '@';
 }
 connect += config.db.host + ":" + config.db.port + "/" + config.db.database;
-// var connect2 = "mongodb://educa:Educa_2018**@172.25.80.83:27017/educa";
+
+var connect2 = "mongodb://educa:Educa_2018**@172.25.80.83:27017/educa";
 
 // mongoose
-mongoose.connect(connect);
+mongoose.connect(connect2);
 
 mongoose.connection.on('error', function (err) {
 	if (err) {
