@@ -1,5 +1,12 @@
 'use strict';
 
+var filterWords = ["xxx","lozi",".Du.me.mi",".l ồn","địt","Á đù.l ồn.sưng","âm đạo","an cut","An l0n","b.uồi","BƯỚM","Bon cko","bóp","bóp vú","bop vu","bú","Bu Cu","Bú Ku","BÚ L.Ồ.N","Buồi","Buồj","C.Ặ.C","c.ă.c","C.ẶC","c.h.ó","c.hó","C.k.ó","c.kó","cặ c","ca ve","cặ.c","căc","cẶc","Cái Chim","cái lờ","Cai Lon","Cái Trim","cái.l ồn.","cái.l.ồn","Cặk","cẶn bã","cặn bã","cave","cc","cẹc","CH.Ó","Ch.ó","chập mạch","Chim Thúi","chÓ","chÓ dại.","chÓ kứt","ck.ó","ckó","cko","clgt","clgt?","CMM","CỜ HÓ","con cac","con căc","con cẹc","con cko","Con di","con diem","con hoang","Con Mẹ","cức","cuc cac","cuc cut.","cưkt","cựt","cỨt","cưt","cut","Cút Mẹ","d.ái","dái","dau buoi","dcm","dịt","dit cu","dit cu.","Dit Me","dit. cu","djt me","dj~","dkm","DM","Dộg CỨT","dương vật","Dýt","dyt","f uck","Fap","hấ.p d.iêm","Hấp Diêm","Hiếp","Dâm","hột le","ỉa","ỉA","k.ứ.t","k.ứt","kăc","kave","kẹc","kec","khốn nạn","Kon kac","Kon kặk","Kon.ckó","kU","kuc","kức","kưc","kứt","l ồ n","L ồn","l.o.n","l.ô.n","L.O.Z","L.Ồ.Z","l.on","l.ồn","l.oz","l0n","lẳg lơ","liếm","liem lon","lìn","Lỗ lồ.n","lồ n","LỒ n","lò tôn","lo.n","lồ.n","lô.n","lôn","lòn","lòn me","lon me","lox","loz","lôz","Lồz","lồn","dâm","lũ ch.ó","mat lon","mat trinh","chịch","nứng","l.o^n","vailon","đuỹ","Iồn","C..ặc","Bú","màng trinh","giang mai","lồ...n...","lồ...n","çặc","dú to","vú","xoạc","cặ..c","Dú","c.u","Buồ..i","B.ú","Con Ph..ò","Điếm","khe b.ú","C u","đ.ịt","Lồπ","Địt","xuất tinh","l..ồn","CẶC","Lồ..n","lồ..n","vk.l","cái con lz","con me may","l.ồ.n","đ.ị.t","buồi","lồn","xàm l.ồ.n","vai lon","vãi lz","tổ sư","vã.i lồ.n","đkm","vkl","vcl","vl","v.k.l","đcm","fuck","nunglon"];
+var rgx = new RegExp(filterWords.join("|"), "gi");
+
+function wordFilter(str) {          
+    return str.replace(rgx, "***");
+}
+
 var app = {
 	room: function(user) {
 		var socket = io('/room', { transports: ['websocket'] });
@@ -34,7 +41,8 @@ var app = {
 			$('#chat-message').on('keyup', function (e) {
 				if (e.keyCode == 13) {
 					var content = $('#chat-message').val();
-					console.log(content);
+					content = wordFilter(content);
+					console.log("content="+content);
 					if (content !== '') {
 						var message = {
 							content: content,
@@ -52,7 +60,8 @@ var app = {
 
 			$('#chat-btn').on('click', function () {
 				var content = $('#chat-message').val();
-				console.log(content);
+				content = wordFilter(content);
+				console.log("content="+content);
 				if (content !== '') {
 					var message = {
 						content: content,

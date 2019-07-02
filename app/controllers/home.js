@@ -37,14 +37,19 @@ exports.liveclass = async function (req, res) {
 			history: history,
 		});
 	}
-
+	var height = req.query.height
+	if (typeof height === "undefined") {
+		height = 448;
+	}
+	console.log("height="+height);
 	if (typeof req.query.firstname === "undefined") {
 		return res.render('liveclass', {
 			username: req.query.username,
 			liveclass: req.query.liveclass,
 			history: history,
 			avatar: req.query.avatar,
-			firstname: null
+			firstname: null,
+			height: height
 		});
 	}
 
@@ -53,7 +58,8 @@ exports.liveclass = async function (req, res) {
 		liveclass: req.query.liveclass,
 		history: history,
 		avatar: req.query.avatar,
-		firstname: req.query.firstname
+		firstname: req.query.firstname,
+		height: height
 	});
 }
 
