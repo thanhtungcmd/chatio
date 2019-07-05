@@ -16,10 +16,8 @@ exports.liveclass = async function (req, res) {
 	if (typeof req.query.liveclass == "undefined") {
 		return res.send('Fail');
 	}
-
-	var history = Liveclass.find({
-		liveclass_id: req.query.liveclass
-	}).sort({'time': -1}).limit(20);
+	var query = {liveclass_id: req.query.liveclass};
+	var history = Liveclass.find(query).sort({'_id': -1}).limit(20);
 
 	history = await history.exec();
 	history = history.reverse();
@@ -64,9 +62,8 @@ exports.liveclass = async function (req, res) {
 }
 
 exports.liveclassPage = async function(req, res) {
-	var history = Liveclass.find({
-		liveclass_id: req.query.liveclass
-	}).sort({'time': -1}).skip(req.query.page * 20).limit(20);
+	var query = {liveclass_id: req.query.liveclass};
+	var history = Liveclass.find(query).sort({'_id': -1}).skip(req.query.page * 20).limit(20);
 
 	history = await history.exec();
 	history = history.reverse();
