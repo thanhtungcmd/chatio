@@ -41,37 +41,49 @@ var app = {
 			$('#chat-message').on('keyup', function (e) {
 				if (e.keyCode == 13) {
 					var content = $('#chat-message').val();
-					content = wordFilter(content);
-					console.log("content="+content);
-					if (content !== '') {
-						var message = {
-							content: content,
-							username: user,
-							date: Date.now(),
-							avatar: avatar,
-							firstname: firstname
+					//console.log("count="+content.length);
+					if(content.length > 200){
+						alert("Bạn chỉ được chat < 200 ký tự");
+						return false;
+					}else{
+						content = wordFilter(content);
+						//console.log("content="+content);
+						if (content !== '') {
+							var message = {
+								content: content,
+								username: user,
+								date: Date.now(),
+								avatar: avatar,
+								firstname: firstname
+							}
+							socket.emit('newMessage', classId, message);
+							$('#chat-message').val('');
+							app.helpers.liveClassAddMessage(message);
 						}
-						socket.emit('newMessage', classId, message);
-						$('#chat-message').val('');
-						app.helpers.liveClassAddMessage(message);
 					}
 				}
 			});
 
 			$('#chat-btn').on('click', function () {
 				var content = $('#chat-message').val();
-				content = wordFilter(content);
-				console.log("content="+content);
-				if (content !== '') {
-					var message = {
-						content: content,
-						username: user,
-						date: Date.now(),
-						avatar: avatar
+				//console.log("count="+content.length);
+				if(content.length > 200){
+					alert("Bạn chỉ được chat < 200 ký tự");
+					return false;
+				}else{
+					content = wordFilter(content);
+					//console.log("content="+content);
+					if (content !== '') {
+						var message = {
+							content: content,
+							username: user,
+							date: Date.now(),
+							avatar: avatar
+						}
+						socket.emit('newMessage', classId, message);
+						$('#chat-message').val('');
+						app.helpers.liveClassAddMessage(message);
 					}
-					socket.emit('newMessage', classId, message);
-					$('#chat-message').val('');
-					app.helpers.liveClassAddMessage(message);
 				}
 			});
 
