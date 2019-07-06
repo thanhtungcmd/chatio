@@ -43,7 +43,7 @@ var app = {
 					var content = $('#chat-message').val();
 					//console.log("count="+content.length);
 					if(content.length > 200){
-						alert("Đoạn chat không được vượt quá 200 ký tự");
+						alert("Đoạn chat không được vượt quá 200 ký tự!");
 						return false;
 					}else{
 						content = wordFilter(content);
@@ -68,7 +68,7 @@ var app = {
 				var content = $('#chat-message').val();
 				//console.log("count="+content.length);
 				if(content.length > 200){
-					alert("Đoạn chat không được vượt quá 200 ký tự");
+					alert("Đoạn chat không được vượt quá 200 ký tự!");
 					return false;
 				}else{
 					content = wordFilter(content);
