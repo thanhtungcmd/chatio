@@ -10,6 +10,7 @@ var User = require('../database').models.user;
 var Room = require('../database').models.room;
 var History = require('../database').models.history;
 var Liveclass = require('../database').models.liveclass;
+var GroupExercise = require('../database').models.groupExercise;
 
 exports.liveclass = async function (req, res) {
 	console.log(req.query.firstname);
@@ -194,4 +195,37 @@ exports.chat = async function (req, res) {
 	} else {
 		res.send('Bạn chưa chọn bạn');
 	}
+}
+
+exports.groupExercise = async function (req, res) {
+	console.log(req.query.firstname);
+	if (typeof req.query.group_id == "undefined") {
+		return res.send('Fail');
+	}
+	var query = {group_id: req.query.group_id};
+	var history = GroupExercise.find(query).sort({'_id': -1}).limit(20);
+
+	history = await history.exec();
+	history = history.reverse();
+
+	if (typeof req.query.username === "undefined" || typeof req.query.avatar === "undefined") {
+		return res.render('groupExercise2', {
+			group_id: req.query.group_id,
+			history: history,
+		});
+	}
+
+	if (typeof req.query.firstname === "undefined") {
+		var firstname = null;
+	}else{
+		var firstname = req.query.firstname;
+	}
+
+	return res.render('groupExercise', {
+		username: req.query.username,
+		group_id: req.query.group_id,
+		history: history,
+		avatar: req.query.avatar,
+		firstname: firstname
+	});
 }

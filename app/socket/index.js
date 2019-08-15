@@ -10,27 +10,27 @@ const Redis = require('ioredis');
 const startupNodes = [
 	{
 		port: 30001,
-		host: '172.25.80.77'
+		host: '192.168.1.240'
 	},
 	{
 		port: 30002,
-		host: '172.25.80.77'
+		host: '192.168.1.240'
 	},
 	{
-		port: 30001,
-		host: '172.25.80.78'
+		port: 30003,
+		host: '192.168.1.240'
 	},
 	{
-		port: 30002,
-		host: '172.25.80.78'
+		port: 30004,
+		host: '192.168.1.240'
 	},
 	{
-		port: 30001,
-		host: '172.25.80.79'
+		port: 30005,
+		host: '192.168.1.240'
 	},
 	{
-		port: 30002,
-		host: '172.25.80.79'
+		port: 30006,
+		host: '192.168.1.240'
 	}
 ];
 
@@ -38,6 +38,7 @@ const startupNodes = [
 var User = require('../database').models.user;
 var History = require('../database').models.history;
 var Liveclass = require('../database').models.liveclass;
+var GroupExercise = require('../database').models.groupExercise;
 
 // socket Event
 var socketEvent = function (socketIO) {
@@ -72,6 +73,24 @@ var socketEvent = function (socketIO) {
 		socket.on('newMessage', function (classId, message) {
 			new Liveclass({
 				liveclass_id: classId,
+				time: message.date,
+				username: message.username,
+				content: message.content,
+				avatar: message.avatar
+			}).save();
+			socket.broadcast.to(classId).emit('addMessage', message);
+		});
+	});
+
+	// socket for groupExercise
+	socketIO.of('/groupExercise').on('connection', function (socket) {
+		socket.on('join', function (classId) {
+			socket.join(classId);
+		});
+
+		socket.on('newMessage', function (classId, message) {
+			new GroupExercise({
+				group_id: classId,
 				time: message.date,
 				username: message.username,
 				content: message.content,

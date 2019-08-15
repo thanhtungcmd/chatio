@@ -93,6 +93,67 @@ var app = {
 		});
 	},
 
+	groupExercise: function (classId, user, avatar, firstname) {
+		var socket = io('/groupExercise', { transports: ['websocket'] });
+
+		socket.on('connect', function () {
+			socket.emit('join', classId);
+
+			$('#chat-message').on('keyup', function (e) {
+				if (e.keyCode == 13) {
+					var content = $('#chat-message').val();
+					//console.log("count="+content.length);
+					if(content.length > 200){
+						alert("Đoạn chat không được vượt quá 200 ký tự!");
+						return false;
+					}else{
+						content = wordFilter(content);
+						//console.log("content="+content);
+						if (content !== '') {
+							var message = {
+								content: content,
+								username: user,
+								date: Date.now(),
+								avatar: avatar,
+								firstname: firstname
+							}
+							socket.emit('newMessage', classId, message);
+							$('#chat-message').val('');
+							app.helpers.liveClassAddMessage(message);
+						}
+					}
+				}
+			});
+
+			$('#chat-btn').on('click', function () {
+				var content = $('#chat-message').val();
+				//console.log("count="+content.length);
+				if(content.length > 200){
+					alert("Đoạn chat không được vượt quá 200 ký tự!");
+					return false;
+				}else{
+					content = wordFilter(content);
+					//console.log("content="+content);
+					if (content !== '') {
+						var message = {
+							content: content,
+							username: user,
+							date: Date.now(),
+							avatar: avatar
+						}
+						socket.emit('newMessage', classId, message);
+						$('#chat-message').val('');
+						app.helpers.liveClassAddMessage(message);
+					}
+				}
+			});
+
+			socket.on('addMessage', function(message) {
+				app.helpers.liveClassAddMessage(message);
+			});
+		});
+	},
+
 	chat: function (roomId, user) {
 		var socket = io('/chatroom', { transports: ['websocket'] });
 
