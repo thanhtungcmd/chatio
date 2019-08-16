@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 54.1 (76490) - https://sketchapp.com -->
+    <title>icon / chat / video</title>
+    <desc>Created with Sketch.</desc>
+    <g id="icon-/-chat-/-video" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="video" transform="translate(1.000000, 5.000000)" fill="#8E8E93" stroke="#8E8E93" stroke-width="1.5">
+            <polygon id="Path" points="22 2 15 7 22 12"></polygon>
+            <rect id="Rectangle" x="0" y="0" width="15" height="14" rx="2"></rect>
+        </g>
+    </g>
+</svg>

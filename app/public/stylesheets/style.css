@@ -1,13 +1,3 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}
-
-a {
-  color: #00B7FF;
-}
-
-
 .liveclass .liveclass-video {
     background: #F2F5F8;
     border-radius: 2px;
@@ -94,4 +84,22 @@ a {
 
 .emoji-item:hover {
     background: #FAFAFA;
+}
+
+.header-chat{
+    background-color: rgba(239, 239, 244, 1);
+    border-radius: 8px 8px 0px 0px;
+    padding: 16px 0 32px 16px;
+}
+.header-text{
+    font-size: 14px;
+    font-weight: bold;
+    color: rgba(58, 58, 60, 1);
+    float: left;
+    padding-right: 90px;
+}
+.header-chat img{
+    width: 20px;
+    margin-right: 15px;
+    float: left;
 }

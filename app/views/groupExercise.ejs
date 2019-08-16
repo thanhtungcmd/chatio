@@ -7,10 +7,15 @@
     <meta http-equiv="Content-Language" content="en" />
     <title>Group chat</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <!--<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,400,400i,500,500i,600,600i,700,700i&amp;subset=latin-ext">-->
     <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
 </head>
 <body>
+<div class="header-chat">
+    <div class="header-text">Bài tập nhóm</div>
+    <img src="/images/video.svg">
+    <img src="/images/voice.svg">
+    <img src="/images/X.svg">
+</div>
 <div class="liveclass">
     <div class="liveclass-video" id="chat-content" data-page="1">
         <% history.forEach(function(chat) { %>
@@ -65,6 +70,10 @@
 <script src='/javascripts/main.js'></script>
 <script>
     $(document).ready(function () {
+        $('.header-chat').on('click', function () {
+            $('.liveclass').toggle();
+        });
+
         var myDiv = $("#chat-content");
         myDiv.animate({ scrollTop: myDiv.prop("scrollHeight") - myDiv.height() }, 0);
         // Chat js
