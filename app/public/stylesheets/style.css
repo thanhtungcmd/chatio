@@ -5,6 +5,9 @@
     overflow-x: hidden;
     overflow-y: scroll;
 }
+.liveclass .liveclass-video.group {
+    height: 222px;
+}
 .liveclass .liveclass-video .chat-item {
     padding: 7px 5px 7px 50px;
     position: relative;
@@ -90,6 +93,7 @@
     background-color: rgba(239, 239, 244, 1);
     border-radius: 8px 8px 0px 0px;
     padding: 16px 0 32px 16px;
+    position: relative;
 }
 .header-text{
     font-size: 14px;

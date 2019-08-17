@@ -17,7 +17,7 @@
     <img src="/images/X.svg">
 </div>
 <div class="liveclass">
-    <div class="liveclass-video" id="chat-content" data-page="1">
+    <div class="liveclass-video group" id="chat-content" data-page="1">
         <% history.forEach(function(chat) { %>
         <div class="chat-item">
             <div class="chat-item-img">
@@ -70,10 +70,6 @@
 <script src='/javascripts/main.js'></script>
 <script>
     $(document).ready(function () {
-        $('.header-chat').on('click', function () {
-            $('.liveclass').toggle();
-        });
-
         var myDiv = $("#chat-content");
         myDiv.animate({ scrollTop: myDiv.prop("scrollHeight") - myDiv.height() }, 0);
         // Chat js
@@ -111,6 +107,15 @@
                         $("#chat-content").scrollTop(datas.length * 56);
                     }
                 });
+            }
+        });
+
+        $('.header-chat').on('click', function () {
+            $('.liveclass').toggle();
+            if($('.liveclass').css('display') == 'none'){
+                window.parent.postMessage("heightchat=50&group_id=<%= group_id %>", '*');
+            }else{
+                window.parent.postMessage("heightchat=310&group_id=<%= group_id %>", '*');
             }
         });
     });
