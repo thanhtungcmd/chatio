@@ -11,12 +11,13 @@
 </head>
 <body>
 <div class="header-chat">
-    <div class="header-text">Bài tập nhóm</div>
-    <img src="/images/video.svg">
-    <img src="/images/voice.svg">
-    <img src="/images/X.svg">
+    <div class="header-text"><%= group_name %></div>
+    <!-- <img src="/images/video.svg">
+    <img src="/images/voice.svg"> -->
+    <img src="/images/X.svg" onclick="deleteGroup(event)">
 </div>
 <div class="liveclass">
+    <div class="expire-time">Thời gian còn lại: = <b class="time-remaining" id="time-remaining"><%= expireTime %></b></div>
     <div class="liveclass-video group" id="chat-content" data-page="1">
         <% history.forEach(function(chat) { %>
         <div class="chat-item">
@@ -70,6 +71,30 @@
 <script src='/javascripts/main.js'></script>
 <script>
     $(document).ready(function () {
+        var expTime = '<%= expireTime %>';
+
+        var x = setInterval(function() {
+        // Get today's date and time
+        var now = new Date().getTime();
+        // Find the distance between now and the count down date
+        var distance = Number(expTime) - now;
+        // Time calculations for days, hours, minutes and seconds
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        // Display the result in the element with id="demo"
+        document.getElementById("time-remaining").innerHTML = days + " ngày " + hours + " giờ "
+        + minutes + " phút ";
+
+        // If the count down is finished, write some text
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("time-remaining").innerHTML = "EXPIRED";
+            }
+        }, 1000);
+
         var myDiv = $("#chat-content");
         myDiv.animate({ scrollTop: myDiv.prop("scrollHeight") - myDiv.height() }, 0);
         // Chat js
@@ -110,15 +135,21 @@
             }
         });
 
-        $('.header-chat').on('click', function () {
+        $('.header-chat').on('click', ':not(img)', function () {
             $('.liveclass').toggle();
             if($('.liveclass').css('display') == 'none'){
-                window.parent.postMessage("heightchat=50&group_id=<%= group_id %>", '*');
+                window.parent.postMessage("heightchat=48&group_id=<%= group_id %>", '*');
             }else{
-                window.parent.postMessage("heightchat=310&group_id=<%= group_id %>", '*');
+                window.parent.postMessage("heightchat=338&group_id=<%= group_id %>", '*');
             }
         });
     });
+
+    function deleteGroup(event){
+        event.preventDefault();
+        console.log('xoa group');
+        window.parent.postMessage("deletegroup=<%= group_id %>", '*');
+    }
 </script>
 </body>
 </html>

@@ -221,11 +221,25 @@ exports.groupExercise = async function (req, res) {
 		var firstname = req.query.firstname;
 	}
 
+	if (typeof req.query.expireTime === "undefined") {
+		var expireTime = null;
+	}else{
+		var expireTime = req.query.expireTime;
+	}
+
+	if (typeof req.query.group_name === "undefined") {
+		var group_name = "Bài tập nhóm";
+	}else{
+		var group_name = req.query.group_name;
+	}
+
 	return res.render('groupExercise', {
 		username: req.query.username,
 		group_id: req.query.group_id,
 		history: history,
 		avatar: req.query.avatar,
+		expireTime: expireTime,
+		group_name: group_name,
 		firstname: firstname
 	});
 }
