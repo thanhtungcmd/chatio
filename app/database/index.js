@@ -13,7 +13,7 @@ if (config.db.password !== '') {
 }
 connect += config.db.host + ":" + config.db.port + "/" + config.db.database;
 
-var connect2 = "mongodb://educa:Educa_2018**@192.168.1.240:27017/educa";
+var connect2 = "mongodb://educa:Educa_2018**@172.25.80.83:27017/educa";
 
 // mongoose
 mongoose.connect(connect2);
