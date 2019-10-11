@@ -149,6 +149,7 @@
         event.preventDefault();
         console.log('xoa group');
         window.parent.postMessage("deletegroup=<%= group_id %>", '*');
+        window.location.href = "uniwebview://close-chat";
     }
 </script>
 </body>
